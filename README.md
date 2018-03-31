@@ -1,3 +1,13 @@
-### Building the Docker Image
+# Build Image for Docker/SBT/Play2
 
-    docker build -t play2build .
+## Contains
+
+* sbt
+* docker
+* java
+* dpl
+
+## Building the Docker Image
+
+    docker build -t phaus/play2build .
+
