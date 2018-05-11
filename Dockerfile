@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:jdk-alpine
 
 LABEL maintainer="Philipp Haußleiter <philipp@haussleiter.de>"
 
