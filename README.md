@@ -9,5 +9,5 @@
 
 ## Building the Docker Image
 
-    docker build -t phaus/play2build .
+    docker build -t phaus/play2build:alpine .
 

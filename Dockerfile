@@ -1,28 +1,15 @@
-FROM openjdk:8
+FROM openjdk:8-jre-alpine
 
-MAINTAINER Philipp Haußleiter <philipp@haussleiter.de>
+LABEL maintainer="Philipp Haußleiter <philipp@haussleiter.de>"
 
-ADD project/build.properties project/
+ENV SBT_VERSION 0.13.11 
+ENV SBT_HOME /usr/local/sbt 
+ENV PATH ${PATH}:${SBT_HOME}/bin 
+# Install sbt 
+RUN apk add --update curl ca-certificates bash && \
+    curl -sL "http://dl.bintray.com/sbt/native-packages/sbt/$SBT_VERSION/sbt-$SBT_VERSION.tgz" | gunzip | tar -x -C /usr/local && \
+    echo -ne "- with sbt $SBT_VERSION\n" >> /root/.built &&\
+    apk del curl
 
-RUN echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
-RUN apt-get update -yq
-RUN apt-get install -y \
-	apt-utils \
-	sbt \ 
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-
-RUN apt-get update -yq
-
-RUN apt-get install -y docker-ce 
-
-RUN apt-get clean
-
-RUN apt-get install -y rubygems ruby-dev && gem install dpl
+RUN apk --no-cache add docker ruby ruby-irb ruby-rdoc ruby-dev
+RUN gem install dpl
